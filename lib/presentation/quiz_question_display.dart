@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:quizapp_redux/model/quiz.dart';
 import 'package:quizapp_redux/themes/quiz_theme.dart';
 
 class QuizQuestionDisplay extends StatelessWidget {
@@ -7,7 +10,7 @@ class QuizQuestionDisplay extends StatelessWidget {
   final String qaText;
   final VoidCallback onClickQA;
   final VoidCallback onClickCV;
-  final VoidCallback onReportAnswer;
+  final Function(ReportQuestionDialogResult) onReportAnswer;
 
   QuizQuestionDisplay({
     @required this.cvText,
@@ -16,6 +19,29 @@ class QuizQuestionDisplay extends StatelessWidget {
     @required this.onClickCV,
     @required this.onReportAnswer
   });
+
+  Future<Null> _askReportAnswer(BuildContext context) {
+    showDialog<ReportQuestionDialogResult>(
+      context: context,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          title: const Text('Are you sure you want to report this question as invalid?'),
+          children: <Widget>[
+            new SimpleDialogOption(
+              onPressed: () { Navigator.pop(context, ReportQuestionDialogResult.Yes); },
+              child: const Text('Yes'),
+            ),
+            new SimpleDialogOption(
+              onPressed: () { Navigator.pop(context, ReportQuestionDialogResult.No); },
+              child: const Text('No'),
+            ),
+          ],
+        );
+      }
+    ).then<void>((ReportQuestionDialogResult r) {
+      onReportAnswer(r);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +69,7 @@ class QuizQuestionDisplay extends StatelessWidget {
           child: new Center(
             child: new FlatButton(
                 padding: const EdgeInsets.all(4.0),
-                onPressed: onReportAnswer,
+                onPressed: () { _askReportAnswer(context); },
                 child: new Text(
                   'Report Question',
                   style: new TextStyle(

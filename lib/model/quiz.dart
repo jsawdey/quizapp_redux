@@ -67,6 +67,10 @@ class Question {
 
 }
 
+enum ReportQuestionDialogResult {
+  Yes, No
+}
+
 enum QAVisibilityFilter {
   ShowQuestion,
   ShowAnswer,

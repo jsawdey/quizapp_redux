@@ -19,9 +19,7 @@ List<Middleware<AppState>> createStoreMiddleware() {
 }
 
 Middleware<AppState> _fetchQuestions() {
-  print('fetching new questions...');
   return (Store<AppState> store, action, NextDispatcher next) {
-    next(action);
     Repository.getRandomQuestions(action.requestCount).then((questions) {
       store.dispatch(new QuestionsLoadedAction(questions));
     });
@@ -31,10 +29,9 @@ Middleware<AppState> _fetchQuestions() {
 Middleware<AppState> _checkQuestionIndex() {
   return (Store<AppState> store, action, NextDispatcher next) {
     int currIndex = store.state.currentQuestionIndex;
-    if (currIndex < store.state.questions.length) {
+    if (currIndex + 1 < store.state.questions.length) {
       next(action);
     } else {
-      print('$currIndex: needing new questions');
       store.dispatch(new FetchQuestionsAction(store.state.fetchQuestionCount));
     }
   };

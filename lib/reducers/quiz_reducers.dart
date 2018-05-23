@@ -8,12 +8,11 @@ final questionListReducer = combineReducers<List<Question>>([
 ]);
 
 List<Question> _newQuestionsLoaded(List<Question> state, action) {
-  print('update state with questions');
   return action.questions;
 }
 
 final questionIndexReducer = combineReducers<int>([
-  TypedReducer<int, FetchQuestionsAction>(_fetchNewQuestions),
+  TypedReducer<int, QuestionLoadedAction>(_fetchNewQuestions),
   TypedReducer<int, NextQuestionAction>(_nextQuestion),
 ]);
 

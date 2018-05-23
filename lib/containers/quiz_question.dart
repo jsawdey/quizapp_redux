@@ -36,7 +36,7 @@ class _ViewModel {
   final CatValVisibilityFilter catValVisibilityFilter;
   final VoidCallback changeQAVisibilityCallback;
   final VoidCallback changedCVVisibilityCallback;
-  final VoidCallback reportQuestionCallback;
+  final Function(ReportQuestionDialogResult) reportQuestionCallback;
 
   _ViewModel({
     this.currentQuestion,
@@ -59,8 +59,10 @@ class _ViewModel {
       changedCVVisibilityCallback: () {
         store.dispatch(new ToggleCVScreenAction());
       },
-      reportQuestionCallback: () {
-        store.dispatch(new ReportQuestionAction(q.id,));
+      reportQuestionCallback: (result) {
+        if (result == ReportQuestionDialogResult.Yes) {
+          store.dispatch(new ReportQuestionAction(q.id,));
+        }
       },
     );
   }
