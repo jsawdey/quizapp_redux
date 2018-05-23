@@ -3,13 +3,19 @@ import 'package:quizapp_redux/themes/quiz_theme.dart';
 
 class QuizQuestionDisplay extends StatelessWidget {
 
-  final String category;
+  final String cvText;
   final String qaText;
   final VoidCallback onClickQA;
+  final VoidCallback onClickCV;
   final VoidCallback onReportAnswer;
 
-  QuizQuestionDisplay(this.category, this.qaText, this.onClickQA,
-      this.onReportAnswer);
+  QuizQuestionDisplay({
+    @required this.cvText,
+    @required this.qaText,
+    @required this.onClickQA,
+    @required this.onClickCV,
+    @required this.onReportAnswer
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +24,11 @@ class QuizQuestionDisplay extends StatelessWidget {
       children: <Widget>[
         new Flexible(
           flex: 2,
-          child: new _QuizDecorationWrapper(
-              new _QuestionCategoryWidget(category)),
+          child: new GestureDetector(
+            onTap: onClickCV,
+            child: new _QuizDecorationWrapper(
+                new _QuestionCategoryWidget(cvText)),
+          ),
         ),
         new Flexible(
           flex: 6,

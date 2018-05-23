@@ -2,17 +2,47 @@ class Question {
   final int id;
   final String question;
   final String answer;
+  final int categoryId;
   final String category;
   final int value;
   final int airDate;
 
-  Question({id, question, answer, category, value, airDate}) :
+  Question({id, question, answer, categoryId, category, value, airDate}) :
     id = id ?? 0,
     question = question ?? '',
     answer = answer ?? '',
+    categoryId = categoryId ?? 0,
     category = category ?? '',
     value = value ?? 0,
     airDate = airDate ?? 0;
+
+  static Question fromJson(Map json) {
+    return Question(
+      id: json['id'],
+      question: json['question'],
+      answer: json['answer'],
+      categoryId: json['category_id'],
+      category: json['category']['title'],
+      value: json['value'],
+      airDate: DateTime
+          .parse(json['airdate'])
+          .millisecondsSinceEpoch,
+    );
+  }
+
+  static Question fromCategoryJson(Map json, String category) {
+    return Question(
+      id: json['id'],
+      question: json['question'],
+      answer: json['answer'],
+      categoryId: json['category_id'],
+      category: category,
+      value: json['value'],
+      airDate: DateTime
+          .parse(json['airdate'])
+          .millisecondsSinceEpoch,
+    );
+  }
 
   @override
   String toString() {
@@ -37,10 +67,12 @@ class Question {
 
 }
 
-enum ReportDialogState {
-  Shown, Hidden
+enum QAVisibilityFilter {
+  ShowQuestion,
+  ShowAnswer,
 }
 
-enum ReportDialogAnswer {
-  Yes, No
+enum CatValVisibilityFilter {
+  ShowCategory,
+  ShowValue,
 }

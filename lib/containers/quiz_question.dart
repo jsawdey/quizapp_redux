@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:quizapp_redux/selectors/quiz_selectors.dart';
 import 'package:redux/redux.dart';
 import 'package:quizapp_redux/model/app_state.dart';
-import 'package:quizapp_redux/actions/quiz_question_actions.dart';
+import 'package:quizapp_redux/actions/actions.dart';
 import 'package:quizapp_redux/presentation/quiz_question_display.dart';
 import 'package:quizapp_redux/model/quiz.dart';
 
@@ -16,10 +17,13 @@ class QuizQuestion extends StatelessWidget {
       builder: (context, vm) {
         final q = vm.currentQuestion;
         return new QuizQuestionDisplay(
-            q.category,
-            !vm.showAnswer ? q.question : q.answer,
-            vm.changeQAVisibilityCallback,
-            vm.reportQuestionCallback
+            cvText: vm.catValVisibilityFilter == CatValVisibilityFilter.ShowCategory ?
+              q.category : '\$' + '${q.value.toString()}',
+            qaText: vm.visibilityFilter == QAVisibilityFilter.ShowQuestion ?
+              q.question : q.answer,
+            onClickQA: vm.changeQAVisibilityCallback,
+            onClickCV: vm.changedCVVisibilityCallback,
+            onReportAnswer: vm.reportQuestionCallback
         );
       },
     );
@@ -28,28 +32,35 @@ class QuizQuestion extends StatelessWidget {
 
 class _ViewModel {
   final Question currentQuestion;
-  final bool showAnswer;
+  final QAVisibilityFilter visibilityFilter;
+  final CatValVisibilityFilter catValVisibilityFilter;
   final VoidCallback changeQAVisibilityCallback;
+  final VoidCallback changedCVVisibilityCallback;
   final VoidCallback reportQuestionCallback;
 
   _ViewModel({
     this.currentQuestion,
-    this.showAnswer,
+    this.visibilityFilter,
+    this.catValVisibilityFilter,
     this.changeQAVisibilityCallback,
+    this.changedCVVisibilityCallback,
     this.reportQuestionCallback,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
+    Question q = currentQuestionSelector(store.state);
     return _ViewModel(
-      currentQuestion: store.state.currentQuestion,
-      showAnswer: store.state.showAnswer,
+      currentQuestion: q,
+      visibilityFilter: store.state.qaFilter,
+      catValVisibilityFilter: store.state.cvFilter,
       changeQAVisibilityCallback: () {
-        bool currentShowAnswer = store.state.showAnswer;
-        store.dispatch(currentShowAnswer ? new ShowCurrentQuestionAction() :
-          new ShowCurrentAnswerAction());
+        store.dispatch(new ToggleQAScreenAction());
+      },
+      changedCVVisibilityCallback: () {
+        store.dispatch(new ToggleCVScreenAction());
       },
       reportQuestionCallback: () {
-        store.dispatch(new ReportQuestionAction(store.state.currentQuestion.id,));
+        store.dispatch(new ReportQuestionAction(q.id,));
       },
     );
   }
