@@ -40,7 +40,7 @@ Middleware<AppState> _checkQuestionIndex() {
 Middleware<AppState> _reportQuestion() {
   return (Store<AppState> store, action, NextDispatcher next) {
     next(action);
-    Repository.markQuestionInvalid(action.questionId).then((i) {
+    Repository.markQuestionInvalid(store.state.currentQuestionId).then((i) {
       store.dispatch(new FetchQuestionsAction(store.state.fetchQuestionCount));
     });
   };

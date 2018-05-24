@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:quizapp_redux/selectors/selectors.dart';
 import 'package:redux/redux.dart';
 import 'package:quizapp_redux/model/app_state.dart';
 import 'package:quizapp_redux/actions/actions.dart';
@@ -47,9 +48,8 @@ class _ViewModel {
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
-    Question q = store.state.questions.firstWhere((q) => q.id == store.state.currentQuestionId);
     return _ViewModel(
-      currentQuestion: q,
+      currentQuestion: currentQuestionSelector(store.state),
       visibilityFilter: store.state.qaFilter,
       catValVisibilityFilter: store.state.cvFilter,
       changeQAVisibilityCallback: () {
@@ -60,7 +60,7 @@ class _ViewModel {
       },
       reportQuestionCallback: (result) {
         if (result == ReportQuestionDialogResult.Yes) {
-          store.dispatch(new ReportQuestionAction(q.id,));
+          store.dispatch(new ReportQuestionAction());
         }
       },
     );

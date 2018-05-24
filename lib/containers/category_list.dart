@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:quizapp_redux/presentation/category_list_display.dart';
+import 'package:quizapp_redux/selectors/selectors.dart';
 import 'package:redux/redux.dart';
 import 'package:quizapp_redux/model/app_state.dart';
 import 'package:quizapp_redux/actions/actions.dart';
@@ -32,9 +33,9 @@ class _ViewModel {
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
-    Set<String> cats = Set.from(store.state.questions.map((q) => q.category.toUpperCase()));
+    //Set<String> cats = Set.from(store.state.questions.map((q) => q.category.toUpperCase()));
     return _ViewModel(
-      categories: cats.toList(),
+      categories: categoriesSelector(store.state),// cats.toList(),
       onCategoryClickFunction: (category) {
         store.dispatch(new SelectCategoryAction(category));
       },

@@ -35,15 +35,7 @@ class NextQuestionAction {}
 class ToggleQAScreenAction {}
 class ToggleCVScreenAction {}
 
-class ReportQuestionAction {
-  final int questionId;
-  ReportQuestionAction(this.questionId);
-
-  @override
-  String toString() {
-    return 'ReportQuestionAction{questionId:$questionId}';
-  }
-}
+class ReportQuestionAction {}
 
 class StartFirstRoundAction {}
 class StartFinalRoundAction {}
