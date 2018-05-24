@@ -1,4 +1,4 @@
-import 'package:quizapp_redux/model/quiz.dart';
+import 'package:quizapp_redux/model/question.dart';
 import 'package:quizapp_redux/actions/actions.dart';
 import 'package:redux/redux.dart';
 import 'package:quizapp_redux/model/app_state.dart';
@@ -12,26 +12,32 @@ List<Question> _newQuestionsLoaded(List<Question> state, action) {
 }
 
 final questionIndexReducer = combineReducers<int>([
-  TypedReducer<int, QuestionLoadedAction>(_fetchNewQuestions),
   TypedReducer<int, NextQuestionAction>(_nextQuestion),
 ]);
-
-int _fetchNewQuestions(int state, action) {
-  return 0;
-}
 
 int _nextQuestion(int state, action) {
   return ++state;
 }
 
-final qaFilterReducer = combineReducers<QAVisibilityFilter>([
-  TypedReducer<QAVisibilityFilter, QuestionLoadedAction>(_newQuestionQA),
-  TypedReducer<QAVisibilityFilter, ToggleQAScreenAction>(_toggleQAVisibility),
+final currentQuestionIdReducer = combineReducers<int>([
+  TypedReducer<int, LoadQuestionByIdAction>(_loadQuestionById),
 ]);
 
-QAVisibilityFilter _newQuestionQA(QAVisibilityFilter state, action) {
-  return QAVisibilityFilter.ShowQuestion;
+int _loadQuestionById(int state, action) {
+  return action.questionId;
 }
+
+final currentCategoryReducer = combineReducers<String>([
+  TypedReducer<String, SelectCategoryAction>(_newCategorySelected),
+]);
+
+String _newCategorySelected(String state, action) {
+  return action.selectedCategory;
+}
+
+final qaFilterReducer = combineReducers<QAVisibilityFilter>([
+  TypedReducer<QAVisibilityFilter, ToggleQAScreenAction>(_toggleQAVisibility),
+]);
 
 QAVisibilityFilter _toggleQAVisibility(QAVisibilityFilter state, action) {
   if (state == QAVisibilityFilter.ShowQuestion) {
@@ -42,13 +48,8 @@ QAVisibilityFilter _toggleQAVisibility(QAVisibilityFilter state, action) {
 }
 
 final cvFilterReducer = combineReducers<CatValVisibilityFilter>([
-  TypedReducer<CatValVisibilityFilter, QuestionLoadedAction>(_newQuestionCV),
   TypedReducer<CatValVisibilityFilter, ToggleCVScreenAction>(_toggleCVVisibility),
 ]);
-
-CatValVisibilityFilter _newQuestionCV(CatValVisibilityFilter state, action) {
-  return CatValVisibilityFilter.ShowCategory;
-}
 
 CatValVisibilityFilter _toggleCVVisibility(CatValVisibilityFilter state, action) {
   if (state == CatValVisibilityFilter.ShowCategory) {
@@ -62,6 +63,8 @@ AppState quizAppReducer(AppState state, action) {
   return AppState(
     questions: questionListReducer(state.questions, action),
     currentQuestionIndex: questionIndexReducer(state.currentQuestionIndex, action),
+    currentQuestionId: currentQuestionIdReducer(state.currentQuestionId, action),
+    currentCategory: currentCategoryReducer(state.currentCategory, action),
     qaFilter: qaFilterReducer(state.qaFilter, action),
     cvFilter: cvFilterReducer(state.cvFilter, action),
   );

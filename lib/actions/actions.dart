@@ -1,4 +1,4 @@
-import 'package:quizapp_redux/model/quiz.dart';
+import 'package:quizapp_redux/model/question.dart';
 
 class FetchQuestionsAction {
   final int requestCount;
@@ -20,18 +20,17 @@ class QuestionsLoadedAction {
   }
 }
 
-class NextQuestionAction {}
-
-class QuestionLoadedAction{
-  final Question currentQuestion;
-
-  QuestionLoadedAction(this.currentQuestion);
+class LoadQuestionByIdAction {
+  final int questionId;
+  LoadQuestionByIdAction(this.questionId);
 
   @override
   String toString() {
-    return 'QuestionLoadedAction{currentQuestion:$currentQuestion}';
+    return 'LoadQuestionById{questionId: $questionId}';
   }
 }
+
+class NextQuestionAction {}
 
 class ToggleQAScreenAction {}
 class ToggleCVScreenAction {}
@@ -48,3 +47,13 @@ class ReportQuestionAction {
 
 class StartFirstRoundAction {}
 class StartFinalRoundAction {}
+
+class SelectCategoryAction {
+  final String selectedCategory;
+  SelectCategoryAction(this.selectedCategory);
+
+  @override
+  String toString() {
+    return 'SelectCategoryAction{selectedCategory: $selectedCategory}';
+  }
+}

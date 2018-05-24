@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:quizapp_redux/selectors/quiz_selectors.dart';
 import 'package:redux/redux.dart';
 import 'package:quizapp_redux/model/app_state.dart';
 import 'package:quizapp_redux/actions/actions.dart';
 import 'package:quizapp_redux/presentation/quiz_question_display.dart';
-import 'package:quizapp_redux/model/quiz.dart';
+import 'package:quizapp_redux/model/question.dart';
 
 class QuizQuestion extends StatelessWidget {
   QuizQuestion({Key key}) : super(key: key);
@@ -48,7 +47,7 @@ class _ViewModel {
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
-    Question q = currentQuestionSelector(store.state);
+    Question q = store.state.questions.firstWhere((q) => q.id == store.state.currentQuestionId);
     return _ViewModel(
       currentQuestion: q,
       visibilityFilter: store.state.qaFilter,

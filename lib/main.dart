@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp_redux/presentation/quiz_list_page.dart';
+import 'package:quizapp_redux/presentation/category_list_page.dart';
 import 'package:quizapp_redux/presentation/quiz_question_page.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -20,16 +20,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Random Trivia Question',
-      theme: new ThemeData(
-        primarySwatch: Colors.green,
-        canvasColor: Colors.black87,
+    return new StoreProvider<AppState>(
+      store: store,
+      child: new MaterialApp(
+        title: 'Random Trivia Question',
+        theme: new ThemeData(
+          primarySwatch: Colors.green,
+          canvasColor: Colors.black87,
+        ),
+        home: new CategoryListPage(title: 'Pick a category'),
       ),
-      home: new StoreProvider<AppState>(
-        store: store,
-        child: new QuizQuestionPage(title: 'Random Trivia Question')),
-        // child: new QuizListPage(title: 'Random Trivia List')),
     );
   }
 }

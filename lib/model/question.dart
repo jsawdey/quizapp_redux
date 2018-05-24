@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+
+@immutable
 class Question {
   final int id;
   final String question;

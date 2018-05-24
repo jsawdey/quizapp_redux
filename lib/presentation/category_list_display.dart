@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp_redux/themes/quiz_theme.dart';
+import 'package:quizapp_redux/presentation/question_list_page.dart';
 
-class QuizQuestionListDisplay extends StatelessWidget {
+class CategoryListDisplay extends StatelessWidget {
   final List<String> categories;
-  QuizQuestionListDisplay(this.categories);
+  final Function(String) categoryClickFunction;
+  CategoryListDisplay(
+      this.categories,
+      this.categoryClickFunction,
+      );
+
+  void _onCategoryTap(BuildContext context, String category) {
+    categoryClickFunction(category);
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => QuestionListPage()
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
         itemCount: categories.length,
         itemBuilder: (context, index) {
-          return new _QuizDecorationWrapper(
-              new Text(
-                categories[index].toUpperCase(),
-                style: QuizQuestionTheme.categoryTextTheme(),
-              )
+          return new GestureDetector(
+            onTap: () => _onCategoryTap(context, categories[index]),
+            child: new _QuizDecorationWrapper(
+                new Text(
+                  categories[index],
+                  style: QuizQuestionTheme.categoryTextTheme(),
+                )
+            ),
           );
         }
     );

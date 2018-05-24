@@ -11,19 +11,20 @@ class QuizQuestionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreBuilder(
-      onInit: (store) => store.dispatch(new FetchQuestionsAction(20)),
-      builder: (context, Store<AppState> store) => new Scaffold(
+    return //new StoreBuilder(
+      //onInit: (store) => store.dispatch(new FetchQuestionsAction(20)),
+      //builder: (context, Store<AppState> store) =>
+    new Scaffold(
         appBar: new AppBar(
           title: new Text(title),
         ),
         body: new QuizQuestion(),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: () { store.dispatch(new NextQuestionAction()); },
-          tooltip: 'Get New Question',
-          child: new Icon(Icons.refresh),
-        ),
-      ),
+        //floatingActionButton: new FloatingActionButton(
+        //  onPressed: () { store.dispatch(new NextQuestionAction()); },
+        //  tooltip: 'Get New Question',
+        //  child: new Icon(Icons.refresh),
+        //),
+      //),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:quizapp_redux/model/networking/api.dart';
-import 'package:quizapp_redux/model/quiz.dart';
+import 'package:quizapp_redux/model/question.dart';
 import 'dart:math';
 
 enum Round {

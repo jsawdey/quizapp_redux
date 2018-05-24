@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp_redux/containers/quiz_question_list.dart';
+import 'package:quizapp_redux/containers/category_list.dart';
 import 'package:quizapp_redux/model/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:quizapp_redux/actions/actions.dart';
 
-class QuizListPage extends StatelessWidget {
+class CategoryListPage extends StatelessWidget {
   final String title;
-  QuizListPage({this.title});
+  CategoryListPage({this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class QuizListPage extends StatelessWidget {
         appBar: new AppBar(
           title: new Text(title),
         ),
-        body: new QuizQuestionList(),
+        body: new CategoryList(),
         floatingActionButton: new FloatingActionButton(
           onPressed: () { store.dispatch(new StartFinalRoundAction()); },
           tooltip: 'Get New Question',

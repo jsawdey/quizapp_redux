@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:quizapp_redux/model/quiz.dart';
+import 'package:quizapp_redux/model/question.dart';
 import 'package:quizapp_redux/themes/quiz_theme.dart';
 
 class QuizQuestionDisplay extends StatelessWidget {
@@ -41,6 +41,7 @@ class QuizQuestionDisplay extends StatelessWidget {
     ).then<void>((ReportQuestionDialogResult r) {
       onReportAnswer(r);
     });
+    return null;
   }
 
   @override
