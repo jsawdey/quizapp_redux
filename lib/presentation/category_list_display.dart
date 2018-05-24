@@ -50,7 +50,7 @@ class _QuizDecorationWrapper extends StatelessWidget {
           borderRadius: new BorderRadius.all(const Radius.circular(8.0)),
           color: const Color(0xFFFF060CE9),
         ),
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
         child: _widget
     );

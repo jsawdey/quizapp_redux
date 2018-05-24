@@ -9,7 +9,7 @@ enum Round {
 
 class Repository {
 
-  static final _RndNbrGen = new Random(new DateTime.now().millisecondsSinceEpoch);
+  static final _rndNbrGen = new Random(new DateTime.now().millisecondsSinceEpoch);
 
   static Future<List<Question>> getRandomQuestions(int count) async {
     int goodQuestionCount = 0;
@@ -35,7 +35,7 @@ class Repository {
     List<Question> testQuestions = [];
     List<Question> result = [];
     for (int i = 0; i < count; i++) {
-      int random = _RndNbrGen.nextInt(9744);
+      int random = _rndNbrGen.nextInt(9744);
       var jsonResponse = await JServiceAPI.getQuestion(100, random);
       testQuestions.add(Question.fromJson(jsonResponse));
     }
@@ -51,7 +51,7 @@ class Repository {
     List<Question> testQuestions = [];
     List<Question> result = [];
     for (int i = 0; i < count; i++) {
-      int random = _RndNbrGen.nextInt(9744);
+      int random = _rndNbrGen.nextInt(9744);
       var jsonResponse = await JServiceAPI.getQuestion(1000, random);
       testQuestions.add(Question.fromJson(jsonResponse));
     }
@@ -73,38 +73,61 @@ class Repository {
     List thirdLevel = clues.where((l) => l['value'] == (roundType == Round.First ? 300 : 600)).toList();
     List fourthLevel = clues.where((l) => l['value'] == (roundType == Round.First ? 400 : 800)).toList();
     List fifthLevel = clues.where((l) => l['value'] == (roundType == Round.First ? 500 : 1000)).toList();
+    // Add the random first level question
     try {
-      int firstLevelRndIndex = firstLevel.length == 1 ? 0 : _RndNbrGen.nextInt(
+      int firstLevelRndIndex = firstLevel.length == 1 ? 0 : _rndNbrGen.nextInt(
           firstLevel.length);
-      int secondLevelRndIndex = secondLevel.length == 1 ? 0 : _RndNbrGen
-          .nextInt(secondLevel.length);
-      int thirdLevelRndIndex = thirdLevel.length == 1 ? 0 : _RndNbrGen.nextInt(
-          thirdLevel.length);
-      int fourthLevelRndIndex = fourthLevel.length == 1 ? 0 : _RndNbrGen
-          .nextInt(fourthLevel.length);
-      int fifthLevelRndIndex = fifthLevel.length == 1 ? 0 : _RndNbrGen.nextInt(
-          fifthLevel.length);
       result.add(Question.fromCategoryJson(
           firstLevel[firstLevelRndIndex], categoryName));
+    } catch (e) {
+      print(e.toString());
+      print('firstLevel: $firstLevel');
+    }
+    // Add the random second level question
+    try {
+      int secondLevelRndIndex = secondLevel.length == 1 ? 0 : _rndNbrGen
+          .nextInt(secondLevel.length);
       result.add(Question.fromCategoryJson(
           secondLevel[secondLevelRndIndex], categoryName));
+    } catch (e) {
+      print(e.toString());
+      print('secondLevel: $secondLevel');
+    }
+    // Add the random third level question
+    try {
+      int thirdLevelRndIndex = thirdLevel.length == 1 ? 0 : _rndNbrGen.nextInt(
+          thirdLevel.length);
       result.add(Question.fromCategoryJson(
           thirdLevel[thirdLevelRndIndex], categoryName));
+    } catch (e) {
+      print(e.toString());
+      print('thirdLevel: $thirdLevel');
+    }
+    // Add the random fourth level question
+    try {
+      int fourthLevelRndIndex = fourthLevel.length == 1 ? 0 : _rndNbrGen
+          .nextInt(fourthLevel.length);
       result.add(Question.fromCategoryJson(
           fourthLevel[fourthLevelRndIndex], categoryName));
+    } catch (e) {
+      print(e.toString());
+      print('fourthLevel: $fourthLevel');
+    }
+    // Add the random fifth level question
+    try {
+      int fifthLevelRndIndex = fifthLevel.length == 1 ? 0 : _rndNbrGen.nextInt(
+          fifthLevel.length);
       result.add(Question.fromCategoryJson(
           fifthLevel[fifthLevelRndIndex], categoryName));
-    } catch(e) {
-      print('firstLevel: $firstLevel');
-      print('secondLevel: $secondLevel');
-      print('thirdLevel: $thirdLevel');
-      print('fourthLevel: $fourthLevel');
+    } catch (e) {
+      print(e.toString());
       print('fifthLevel: $fifthLevel');
     }
     return result;
   }
 
   static Future<Null> markQuestionInvalid(int id) async {
-    var response = await JServiceAPI.markJServiceQuestionInvalid(id);
+    await JServiceAPI.markJServiceQuestionInvalid(id);
+    return null;
   }
 }

@@ -4,7 +4,6 @@ import 'package:quizapp_redux/model/question.dart';
 @immutable
 class AppState {
   final List<Question> questions;
-  final int currentQuestionIndex;
   final int currentQuestionId;
   final String currentCategory;
   final QAVisibilityFilter qaFilter;
@@ -13,7 +12,6 @@ class AppState {
 
   AppState({
     this.questions = const [],
-    this.currentQuestionIndex = 0,
     this.currentQuestionId = 0,
     this.currentCategory = '',
     this.qaFilter = QAVisibilityFilter.ShowQuestion,
@@ -23,7 +21,6 @@ class AppState {
 
   AppState copyWith({
     List<Question> questions,
-    int currentQuestionIndex,
     int currentQuestionId,
     String currentCategory,
     QAVisibilityFilter qaFilter,
@@ -32,7 +29,6 @@ class AppState {
   }) {
     return AppState(
       questions: questions ?? this.questions,
-      currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
       currentQuestionId: currentQuestionId ?? this.currentQuestionId,
       currentCategory: currentCategory ?? this.currentCategory,
       qaFilter: qaFilter ?? this.qaFilter,
@@ -44,7 +40,6 @@ class AppState {
   @override
   int get hashCode =>
     questions.hashCode ^
-    currentQuestionIndex.hashCode ^
     currentQuestionId.hashCode ^
     currentCategory.hashCode ^
     qaFilter.hashCode ^
@@ -57,7 +52,6 @@ class AppState {
     other is AppState &&
       runtimeType == other.runtimeType &&
       questions == other.questions &&
-      currentQuestionIndex == other.currentQuestionIndex &&
       currentQuestionId == other.currentQuestionId &&
       currentCategory == other.currentCategory &&
       qaFilter == other.qaFilter &&
@@ -67,7 +61,6 @@ class AppState {
   @override
   String toString() {
     return 'AppState{questions: $questions, '
-        'currentQuestionIndex: $currentQuestionIndex, '
         'currentQuestionId: $currentQuestionId, '
         'currentCategory: $currentCategory, '
         'qaFilter: $qaFilter, cvFilter: $cvFilter, '

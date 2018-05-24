@@ -11,14 +11,6 @@ List<Question> _newQuestionsLoaded(List<Question> state, action) {
   return action.questions;
 }
 
-final questionIndexReducer = combineReducers<int>([
-  TypedReducer<int, NextQuestionAction>(_nextQuestion),
-]);
-
-int _nextQuestion(int state, action) {
-  return ++state;
-}
-
 final currentQuestionIdReducer = combineReducers<int>([
   TypedReducer<int, LoadQuestionByIdAction>(_loadQuestionById),
 ]);
@@ -62,7 +54,6 @@ CatValVisibilityFilter _toggleCVVisibility(CatValVisibilityFilter state, action)
 AppState quizAppReducer(AppState state, action) {
   return AppState(
     questions: questionListReducer(state.questions, action),
-    currentQuestionIndex: questionIndexReducer(state.currentQuestionIndex, action),
     currentQuestionId: currentQuestionIdReducer(state.currentQuestionId, action),
     currentCategory: currentCategoryReducer(state.currentCategory, action),
     qaFilter: qaFilterReducer(state.qaFilter, action),

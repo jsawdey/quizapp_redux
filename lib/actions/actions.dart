@@ -1,15 +1,5 @@
 import 'package:quizapp_redux/model/question.dart';
 
-class FetchQuestionsAction {
-  final int requestCount;
-  FetchQuestionsAction(this.requestCount);
-
-  @override
-  String toString() {
-    return 'FetchQuestionsAction{requestCount: $requestCount}';
-  }
-}
-
 class QuestionsLoadedAction {
   final List<Question> questions;
   QuestionsLoadedAction(this.questions);
@@ -29,8 +19,6 @@ class LoadQuestionByIdAction {
     return 'LoadQuestionById{questionId: $questionId}';
   }
 }
-
-class NextQuestionAction {}
 
 class ToggleQAScreenAction {}
 class ToggleCVScreenAction {}
