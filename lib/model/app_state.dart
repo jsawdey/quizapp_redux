@@ -8,7 +8,6 @@ class AppState {
   final String currentCategory;
   final QAVisibilityFilter qaFilter;
   final CatValVisibilityFilter cvFilter;
-  final int fetchQuestionCount;
 
   AppState({
     this.questions = const [],
@@ -16,7 +15,6 @@ class AppState {
     this.currentCategory = '',
     this.qaFilter = QAVisibilityFilter.ShowQuestion,
     this.cvFilter = CatValVisibilityFilter.ShowCategory,
-    this.fetchQuestionCount = 20,
   });
 
   AppState copyWith({
@@ -25,7 +23,6 @@ class AppState {
     String currentCategory,
     QAVisibilityFilter qaFilter,
     CatValVisibilityFilter cvFilter,
-    int fetchQuestionCount,
   }) {
     return AppState(
       questions: questions ?? this.questions,
@@ -33,7 +30,6 @@ class AppState {
       currentCategory: currentCategory ?? this.currentCategory,
       qaFilter: qaFilter ?? this.qaFilter,
       cvFilter: cvFilter ?? this.cvFilter,
-      fetchQuestionCount: fetchQuestionCount ?? this.fetchQuestionCount,
     );
   }
 
@@ -43,8 +39,7 @@ class AppState {
     currentQuestionId.hashCode ^
     currentCategory.hashCode ^
     qaFilter.hashCode ^
-    cvFilter.hashCode ^
-    fetchQuestionCount;
+    cvFilter.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -55,15 +50,13 @@ class AppState {
       currentQuestionId == other.currentQuestionId &&
       currentCategory == other.currentCategory &&
       qaFilter == other.qaFilter &&
-      cvFilter == other.cvFilter &&
-      fetchQuestionCount == other.fetchQuestionCount;
+      cvFilter == other.cvFilter;
 
   @override
   String toString() {
     return 'AppState{questions: $questions, '
         'currentQuestionId: $currentQuestionId, '
         'currentCategory: $currentCategory, '
-        'qaFilter: $qaFilter, cvFilter: $cvFilter, '
-        'fetchQuestionCount: $fetchQuestionCount}';
+        'qaFilter: $qaFilter, cvFilter: $cvFilter}';
   }
 }
