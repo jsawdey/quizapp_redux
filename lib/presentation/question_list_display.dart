@@ -8,9 +8,9 @@ class QuestionListDisplay extends StatelessWidget {
   final List<Question> questions;
   final Function(int) questionOnClickFunction;
   QuestionListDisplay(
-      @required this.category,
-      @required this.questions,
-      @required this.questionOnClickFunction,
+      this.category,
+      this.questions,
+      this.questionOnClickFunction,
       );
 
   void _onCategoryTap(BuildContext context, int questionId,
@@ -38,10 +38,11 @@ class QuestionListDisplay extends StatelessWidget {
               itemCount: questions.length,
               itemBuilder: (context, index) {
                 return new GestureDetector(
-                  onTap: () => _onCategoryTap(context, questions[index].id, '\$' + questions[index].value.toString()),
+                  onTap: questions[index].answered ? null :
+                      () => _onCategoryTap(context, questions[index].id, '\$' + questions[index].value.toString()),
                   child: new _QuizDecorationWrapper(
                       new Text(
-                        '\$' + questions[index].value.toString(),
+                        questions[index].answered ? '' : '\$' + questions[index].value.toString(),
                         style: QuizQuestionTheme.categoryTextTheme(),
                       )
                   ),

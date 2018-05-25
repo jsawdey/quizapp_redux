@@ -20,6 +20,17 @@ class LoadQuestionByIdAction {
   }
 }
 
+class MarkQuestionAnsweredAction {
+  final int questionId;
+  final Question updatedQuestion;
+  MarkQuestionAnsweredAction(this.questionId, this.updatedQuestion);
+
+  @override
+  String toString() {
+    return 'MarkQuestionAnsweredAction{questionId: $questionId, updatedQuestion: $updatedQuestion}';
+  }
+}
+
 class ToggleQAScreenAction {}
 class ToggleCVScreenAction {}
 
@@ -35,5 +46,16 @@ class SelectCategoryAction {
   @override
   String toString() {
     return 'SelectCategoryAction{selectedCategory: $selectedCategory}';
+  }
+}
+
+class UpdateScoreAction {
+  final int questionValue;
+  final bool correct;
+  UpdateScoreAction(this.questionValue, this.correct);
+
+  @override
+  String toString() {
+    return 'UpdateScoreAction{questionValue: $questionValue, correct: $correct}';
   }
 }
