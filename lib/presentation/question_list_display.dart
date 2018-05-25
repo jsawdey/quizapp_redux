@@ -20,7 +20,9 @@ class QuestionListDisplay extends StatelessWidget {
         builder: (_) => QuizQuestionPage(
           title: '${this.category.toUpperCase()} - $value'
         )
-    ));
+    )).then((d) {
+      if ((this.questions.length-1) == 0) Navigator.of(context).pop();
+    });
   }
 
   @override
