@@ -32,7 +32,6 @@ class MarkQuestionAnsweredAction {
 }
 
 class ToggleQAScreenAction {}
-class ToggleCVScreenAction {}
 
 class ReportQuestionAction {}
 

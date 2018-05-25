@@ -8,16 +8,18 @@ class QuizQuestionDisplay extends StatelessWidget {
 
   final String cvText;
   final String qaText;
+  final int value;
   final VoidCallback onClickQA;
-  final VoidCallback onClickCV;
   final Function(ReportQuestionDialogResult) onReportAnswer;
+  final Function(int, bool) onAnswerQuestion;
 
   QuizQuestionDisplay({
     @required this.cvText,
     @required this.qaText,
+    @required this.value,
     @required this.onClickQA,
-    @required this.onClickCV,
-    @required this.onReportAnswer
+    @required this.onReportAnswer,
+    @required this.onAnswerQuestion,
   });
 
   Future<Null> _askReportAnswer(BuildContext context) {
@@ -44,6 +46,11 @@ class QuizQuestionDisplay extends StatelessWidget {
     return null;
   }
 
+  void _answerQuestion(BuildContext context, int value, bool correct) {
+    onAnswerQuestion(value, correct);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Column(
@@ -51,34 +58,66 @@ class QuizQuestionDisplay extends StatelessWidget {
       children: <Widget>[
         new Flexible(
           flex: 2,
-          child: new GestureDetector(
-            onTap: onClickCV,
-            child: new _QuizDecorationWrapper(
-                new _QuestionCategoryWidget(cvText)),
-          ),
+          child: new _QuizDecorationWrapper(
+              new _QuestionCategoryWidget(cvText)),
         ),
         new Flexible(
           flex: 6,
-          child: new GestureDetector(
-            onTap: onClickQA,
-            child: new _QuizDecorationWrapper(new _QuestionAnswerWidget(
-                qaText)),
+          child: new Stack(
+            children: <Widget>[
+              new Positioned.fill(
+                  child: new GestureDetector(
+                    onTap: onClickQA,
+                    child: new _QuizDecorationWrapper(new _QuestionAnswerWidget(
+                        qaText)),
+                  ),
+              ),
+              new Positioned(
+                left: 8.0,
+                bottom: 8.0,
+                child: new FlatButton(
+                    padding: const EdgeInsets.all(4.0),
+                    onPressed: () { _askReportAnswer(context); },
+                    child: new Text(
+                      'Report Question',
+                      style: new TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
+                    )
+                ),
+              ),
+            ],
           ),
         ),
         new Flexible(
           flex: 1,
-          child: new Center(
-            child: new FlatButton(
-                padding: const EdgeInsets.all(4.0),
-                onPressed: () { _askReportAnswer(context); },
-                child: new Text(
-                  'Report Question',
-                  style: new TextStyle(
-                    color: Colors.white,
-                    decoration: TextDecoration.underline,
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new IconButton(
+                  icon: new Icon(Icons.check),
+                  color: Colors.white,
+                  iconSize: 32.0,
+                  splashColor: Colors.white,
+                  onPressed: () { _answerQuestion(context, this.value, true); }
+              ),
+              new IconButton(
+                  icon: new Icon(Icons.skip_next),
+                  color: Colors.white,
+                  iconSize: 32.0,
+                  splashColor: Colors.white,
+                  onPressed: () { _answerQuestion(context, 0, true); }
                   ),
-                )
-            ),
+              new IconButton(
+                  icon: new Icon(Icons.close),
+                  color: Colors.white,
+                  iconSize: 32.0,
+                  splashColor: Colors.white,
+                  onPressed: () { _answerQuestion(context, this.value, false); }
+              ),
+            ],
           ),
         ),
       ],
@@ -163,8 +202,7 @@ class _QuizDecorationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        constraints: new BoxConstraints.expand(
-        ),
+        //constraints: new BoxConstraints.expand(),
         decoration: new BoxDecoration(
           border: new Border.all(width: 8.0, color: Colors.black),
           borderRadius: new BorderRadius.all(const Radius.circular(8.0)),

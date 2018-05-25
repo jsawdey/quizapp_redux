@@ -17,13 +17,13 @@ class QuizQuestion extends StatelessWidget {
       builder: (context, vm) {
         final q = vm.currentQuestion;
         return new QuizQuestionDisplay(
-            cvText: vm.catValVisibilityFilter == CatValVisibilityFilter.ShowCategory ?
-              q.category : '\$' + '${q.value.toString()}',
+            cvText: q.category,
             qaText: vm.visibilityFilter == QAVisibilityFilter.ShowQuestion ?
               q.question : q.answer,
+            value: q.value,
             onClickQA: vm.changeQAVisibilityCallback,
-            onClickCV: vm.changedCVVisibilityCallback,
-            onReportAnswer: vm.reportQuestionCallback
+            onReportAnswer: vm.reportQuestionCallback,
+            onAnswerQuestion: vm.answerQuestionCallback,
         );
       },
     );
@@ -33,35 +33,36 @@ class QuizQuestion extends StatelessWidget {
 class _ViewModel {
   final Question currentQuestion;
   final QAVisibilityFilter visibilityFilter;
-  final CatValVisibilityFilter catValVisibilityFilter;
   final VoidCallback changeQAVisibilityCallback;
-  final VoidCallback changedCVVisibilityCallback;
   final Function(ReportQuestionDialogResult) reportQuestionCallback;
+  final Function(int, bool) answerQuestionCallback;
 
   _ViewModel({
     this.currentQuestion,
     this.visibilityFilter,
-    this.catValVisibilityFilter,
     this.changeQAVisibilityCallback,
-    this.changedCVVisibilityCallback,
     this.reportQuestionCallback,
+    this.answerQuestionCallback,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       currentQuestion: currentQuestionSelector(store.state),
       visibilityFilter: store.state.qaFilter,
-      catValVisibilityFilter: store.state.cvFilter,
       changeQAVisibilityCallback: () {
         store.dispatch(new ToggleQAScreenAction());
-      },
-      changedCVVisibilityCallback: () {
-        store.dispatch(new ToggleCVScreenAction());
       },
       reportQuestionCallback: (result) {
         if (result == ReportQuestionDialogResult.Yes) {
           store.dispatch(new ReportQuestionAction());
         }
+      },
+      answerQuestionCallback: (value, correct) {
+        store.dispatch(new MarkQuestionAnsweredAction(
+            store.state.currentQuestionId,
+            currentQuestionSelector(store.state).copyWith(answered: true))
+        );
+        store.dispatch(new UpdateScoreAction(value, correct));
       },
     );
   }

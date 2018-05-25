@@ -49,14 +49,14 @@ class Question {
     );
   }
 
-  static Question fromCategoryJson(Map json, String category) {
+  static Question fromCategoryJson(Map json, String category, {int value}) {
     return Question(
       id: json['id'],
       question: json['question'],
       answer: json['answer'],
       categoryId: json['category_id'],
       category: category,
-      value: json['value'],
+      value: value ?? json['value'],
       airDate: DateTime
           .parse(json['airdate'])
           .millisecondsSinceEpoch,
@@ -96,9 +96,4 @@ enum ReportQuestionDialogResult {
 enum QAVisibilityFilter {
   ShowQuestion,
   ShowAnswer,
-}
-
-enum CatValVisibilityFilter {
-  ShowCategory,
-  ShowValue,
 }

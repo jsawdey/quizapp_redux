@@ -28,22 +28,27 @@ class QuestionListDisplay extends StatelessWidget {
     return new Column(
       children: <Widget>[
         new _QuizDecorationWrapper(
-          new Text(
-            category,
-            style: QuizQuestionTheme.categoryTextTheme(),
+          new Center(
+            child: new Text(
+              category,
+              style: QuizQuestionTheme.categoryTextTheme(),
+            ),
           )
+        ),
+        new Divider(
+          color: Colors.white,
         ),
         new Expanded(
           child: new ListView.builder(
               itemCount: questions.length,
               itemBuilder: (context, index) {
                 return new GestureDetector(
-                  onTap: questions[index].answered ? null :
-                      () => _onCategoryTap(context, questions[index].id, '\$' + questions[index].value.toString()),
+                  onTap: () => _onCategoryTap(context, questions[index].id, '\$' + questions[index].value.toString()),
                   child: new _QuizDecorationWrapper(
                       new Text(
-                        questions[index].answered ? '' : '\$' + questions[index].value.toString(),
+                        '\$' + questions[index].value.toString(),
                         style: QuizQuestionTheme.categoryTextTheme(),
+                        textAlign: TextAlign.center,
                       )
                   ),
                 );
@@ -63,7 +68,7 @@ class _QuizDecorationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        height: 150.0,
+        height: 125.0,
         decoration: new BoxDecoration(
           border: new Border.all(width: 6.0, color: Colors.black),
           borderRadius: new BorderRadius.all(const Radius.circular(8.0)),

@@ -14,7 +14,7 @@ List<Question> _newQuestionsLoaded(List<Question> questions, action) {
 
 List<Question> _markQuestionAnswered(List<Question> questions, action) {
   return questions
-      .map((question) => question.id == action.questionId ? action.updatedQuestion : question)
+      .map<Question>((question) => question.id == action.questionId ? action.updatedQuestion : question)
       .toList();
 }
 
@@ -36,6 +36,7 @@ String _newCategorySelected(String state, action) {
 
 final qaFilterReducer = combineReducers<QAVisibilityFilter>([
   TypedReducer<QAVisibilityFilter, ToggleQAScreenAction>(_toggleQAVisibility),
+  TypedReducer<QAVisibilityFilter, MarkQuestionAnsweredAction>(_questionAnsweredVis),
 ]);
 
 QAVisibilityFilter _toggleQAVisibility(QAVisibilityFilter state, action) {
@@ -46,20 +47,13 @@ QAVisibilityFilter _toggleQAVisibility(QAVisibilityFilter state, action) {
   }
 }
 
-final cvFilterReducer = combineReducers<CatValVisibilityFilter>([
-  TypedReducer<CatValVisibilityFilter, ToggleCVScreenAction>(_toggleCVVisibility),
-]);
-
-CatValVisibilityFilter _toggleCVVisibility(CatValVisibilityFilter state, action) {
-  if (state == CatValVisibilityFilter.ShowCategory) {
-    return CatValVisibilityFilter.ShowValue;
-  } else {
-    return CatValVisibilityFilter.ShowCategory;
-  }
+QAVisibilityFilter _questionAnsweredVis(QAVisibilityFilter state, action) {
+  return QAVisibilityFilter.ShowQuestion;
 }
 
 final scoreReducer = combineReducers<int>([
   TypedReducer<int, UpdateScoreAction>(_updateScore),
+  TypedReducer<int, StartFirstRoundAction>(_newGame),
 ]);
 
 int _updateScore(int state, action) {
@@ -70,13 +64,16 @@ int _updateScore(int state, action) {
   }
 }
 
+int _newGame(int state, action) {
+  return 0;
+}
+
 AppState quizAppReducer(AppState state, action) {
   return AppState(
     questions: questionListReducer(state.questions, action),
     currentQuestionId: currentQuestionIdReducer(state.currentQuestionId, action),
     currentCategory: currentCategoryReducer(state.currentCategory, action),
     qaFilter: qaFilterReducer(state.qaFilter, action),
-    cvFilter: cvFilterReducer(state.cvFilter, action),
     score: scoreReducer(state.score, action),
   );
 }

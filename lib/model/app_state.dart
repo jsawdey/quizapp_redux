@@ -7,7 +7,6 @@ class AppState {
   final int currentQuestionId;
   final String currentCategory;
   final QAVisibilityFilter qaFilter;
-  final CatValVisibilityFilter cvFilter;
   final int score;
 
   AppState({
@@ -15,8 +14,7 @@ class AppState {
     this.currentQuestionId = 0,
     this.currentCategory = '',
     this.qaFilter = QAVisibilityFilter.ShowQuestion,
-    this.cvFilter = CatValVisibilityFilter.ShowCategory,
-    this.score,
+    this.score = 0,
   });
 
   AppState copyWith({
@@ -24,7 +22,6 @@ class AppState {
     int currentQuestionId,
     String currentCategory,
     QAVisibilityFilter qaFilter,
-    CatValVisibilityFilter cvFilter,
     int score,
   }) {
     return AppState(
@@ -32,7 +29,6 @@ class AppState {
       currentQuestionId: currentQuestionId ?? this.currentQuestionId,
       currentCategory: currentCategory ?? this.currentCategory,
       qaFilter: qaFilter ?? this.qaFilter,
-      cvFilter: cvFilter ?? this.cvFilter,
       score: score ?? this.score,
     );
   }
@@ -43,7 +39,6 @@ class AppState {
     currentQuestionId.hashCode ^
     currentCategory.hashCode ^
     qaFilter.hashCode ^
-    cvFilter.hashCode ^
     score.hashCode;
 
   @override
@@ -55,7 +50,6 @@ class AppState {
       currentQuestionId == other.currentQuestionId &&
       currentCategory == other.currentCategory &&
       qaFilter == other.qaFilter &&
-      cvFilter == other.cvFilter &&
       score == other.score;
 
   @override
@@ -63,7 +57,6 @@ class AppState {
     return 'AppState{questions: $questions, '
         'currentQuestionId: $currentQuestionId, '
         'currentCategory: $currentCategory, '
-        'qaFilter: $qaFilter, cvFilter: $cvFilter,'
-        'score: $score}';
+        'qaFilter: $qaFilter, score: $score}';
   }
 }

@@ -35,7 +35,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     //Set<String> cats = Set.from(store.state.questions.map((q) => q.category.toUpperCase()));
     return _ViewModel(
-      categories: categoriesSelector(store.state),// cats.toList(),
+      categories: unansweredCategorySelector(store.state),// cats.toList(),
       onCategoryClickFunction: (category) {
         store.dispatch(new SelectCategoryAction(category));
       },

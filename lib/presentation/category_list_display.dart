@@ -25,9 +25,12 @@ class CategoryListDisplay extends StatelessWidget {
           return new GestureDetector(
             onTap: () => _onCategoryTap(context, categories[index]),
             child: new _QuizDecorationWrapper(
-                new Text(
-                  categories[index],
-                  style: QuizQuestionTheme.categoryTextTheme(),
+                new Center(
+                  child: new Text(
+                    categories[index],
+                    style: QuizQuestionTheme.categoryTextTheme(),
+                    textAlign: TextAlign.center,
+                  ),
                 )
             ),
           );
@@ -44,7 +47,7 @@ class _QuizDecorationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 150.0,
+      height: 125.0,
         decoration: new BoxDecoration(
           border: new Border.all(width: 6.0, color: Colors.black),
           borderRadius: new BorderRadius.all(const Radius.circular(8.0)),
